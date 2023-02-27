@@ -67,7 +67,7 @@ class ItemAction(Action):
         self.item = item
         if not target_xy:
             target_xy = entity.x, entity.y
-        self.targey_xy = target_xy
+        self.target_xy = target_xy
 
     @property
     def target_actor(self) -> Optional[Actor]:
