@@ -1,2 +1,5 @@
 /__pycache__/*
 /components/__pycache__/*
+
+# Saved games
+*.sav
