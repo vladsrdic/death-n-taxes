@@ -6,14 +6,10 @@ from typing import Callable, Optional, Tuple, TYPE_CHECKING, Union
 
 import tcod.event
 
-import actions
-from actions import (
-    Action,
-    BumpAction,
-    PickupAction,
-    WaitAction
-)
-import color
+from actions.base import Action, WaitAction
+from actions.item import DropItem, EquipAction, PickupAction
+from actions.movement import BumpAction, TakeStairsAction
+import assets.color as color
 import exceptions
 
 if TYPE_CHECKING:
@@ -394,7 +390,7 @@ class InventoryActivateHandler(InventoryEventHandler):
         if item.consumable:
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
-            return actions.EquipAction(self.engine.player, item)
+            return EquipAction(self.engine.player, item)
         else:
             return None
 
@@ -406,7 +402,7 @@ class InventoryDropHandler(InventoryEventHandler):
 
     def on_item_selected(self, item: Item) -> Optional[ActionOrHandler]:
         """Drop this item."""
-        return actions.DropItem(self.engine.player, item)
+        return DropItem(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserEventHandler):
@@ -529,7 +525,7 @@ class MainGameEventHandler(EventHandler):
         if key == tcod.event.K_PERIOD and modifier & (
             tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
-            return actions.TakeStairsAction(player)
+            return TakeStairsAction(player)
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]

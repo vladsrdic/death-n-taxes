@@ -3,7 +3,7 @@ import traceback
 
 import tcod
 
-import color
+import assets.color as color
 import exceptions
 import input_handlers
 import setup_game
