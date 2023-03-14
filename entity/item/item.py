@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Optional, Tuple, TYPE_CHECKING
 
 from entity import Entity
-from render_order import RenderOrder
+from entity.render_order import RenderOrder
 
 if TYPE_CHECKING:
     from entity.item.components.consumable import Consumable

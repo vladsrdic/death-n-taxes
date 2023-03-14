@@ -4,7 +4,7 @@ import copy
 import math
 from typing import Optional, Tuple, TypeVar, TYPE_CHECKING, Union
 
-from render_order import RenderOrder
+from entity.render_order import RenderOrder
 
 if TYPE_CHECKING:
     from entity.actor.components.inventory import Inventory
