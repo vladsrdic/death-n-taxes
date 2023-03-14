@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import assets.color as color
-from components.base_component import BaseComponent
+from entity.base_component import BaseComponent
 from render_order import RenderOrder
 
 if TYPE_CHECKING:

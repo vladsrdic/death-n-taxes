@@ -6,9 +6,9 @@ from typing import Callable, Optional, Tuple, TYPE_CHECKING, Union
 
 import tcod.event
 
-from actions.base import Action, WaitAction
-from actions.item import DropItem, EquipAction, PickupAction
-from actions.movement import BumpAction, TakeStairsAction
+from actions import Action, WaitAction
+from actions.item_actions import DropItem, EquipAction, PickupAction
+from actions.movement_actions import BumpAction, TakeStairsAction
 import assets.color as color
 import exceptions
 

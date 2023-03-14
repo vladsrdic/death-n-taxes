@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional, Tuple, TYPE_CHECKING
 
-from actions.base import Action
+from actions import Action
 import exceptions
 
 if TYPE_CHECKING:

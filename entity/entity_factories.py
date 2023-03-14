@@ -1,10 +1,11 @@
-from components.ai import HostileEnemy
-from components import consumable, equippable
-from components.equipment import Equipment
-from components.fighter import Fighter
-from components.inventory import Inventory
-from components.level import Level
+from entity.actor.components.ai import HostileEnemy
+from entity.item.components import equippable
+from entity.actor.components.equipment import Equipment
+from entity.actor.components.fighter import Fighter
+from entity.actor.components.inventory import Inventory
+from entity.actor.components.level import Level
 from entity import Actor, Item
+from entity.item.components import consumable
 
 player = Actor(
     char="@",
