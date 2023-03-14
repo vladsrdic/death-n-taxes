@@ -11,7 +11,7 @@ import tcod
 
 import assets.color as color
 from engine import Engine
-import entity.entity_factories as entity_factories
+import entity.factories as entity_factories
 from game_map import GameWorld
 import input_handlers
 
@@ -117,10 +117,10 @@ class MainMenu(input_handlers.BaseEventHandler):
             try:
                 return input_handlers.MainGameEventHandler(load_game("savegame.sav"))
             except FileNotFoundError:
-                return input_handlers.PopupMessage(self, "No saved game to load.")
+                return input_handlers.ErrorMessage(self, "No saved game to load.")
             except Exception as exc:
                 traceback.print_exc()  # Print to stderr.
-                return input_handlers.PopupMessage(self, f"Failed to load save:\n{exc}")
+                return input_handlers.ErrorMessage(self, f"Failed to load save:\n{exc}")
         elif event.sym == tcod.event.K_n:
             return input_handlers.MainGameEventHandler(new_game())
 
