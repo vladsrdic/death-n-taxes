@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Optional, TYPE_CHECKING
 
 from entity.base_component import BaseComponent
-from equipment_types import EquipmentType
+from entity.item.equipment_types import EquipmentType
 
 if TYPE_CHECKING:
     from entity import Actor, Item
