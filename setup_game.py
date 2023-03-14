@@ -13,7 +13,7 @@ import assets.color as color
 from engine import Engine
 import entity.factories as entity_factories
 from game_map import GameWorld
-import input_handlers
+from input_handlers import BaseEventHandler, ErrorMessage, MainGameEventHandler
 
 
 # Load the background image and remove the alpha channel.
@@ -72,7 +72,7 @@ def load_game(filename: str) -> Engine:
     return engine
 
 
-class MainMenu(input_handlers.BaseEventHandler):
+class MainMenu(BaseEventHandler):
     """Handle the main menu rendering and input."""
 
     def on_render(self, console: tcod.Console) -> None:
@@ -110,18 +110,18 @@ class MainMenu(input_handlers.BaseEventHandler):
 
     def ev_keydown(
         self, event: tcod.event.KeyDown
-    ) -> Optional[input_handlers.BaseEventHandler]:
+    ) -> Optional[BaseEventHandler]:
         if event.sym in (tcod.event.K_q, tcod.event.K_ESCAPE):
             raise SystemExit()
         elif event.sym == tcod.event.K_c:
             try:
-                return input_handlers.MainGameEventHandler(load_game("savegame.sav"))
+                return MainGameEventHandler(load_game("savegame.sav"))
             except FileNotFoundError:
-                return input_handlers.ErrorMessage(self, "No saved game to load.")
+                return ErrorMessage(self, "No saved game to load.")
             except Exception as exc:
                 traceback.print_exc()  # Print to stderr.
-                return input_handlers.ErrorMessage(self, f"Failed to load save:\n{exc}")
+                return ErrorMessage(self, f"Failed to load save:\n{exc}")
         elif event.sym == tcod.event.K_n:
-            return input_handlers.MainGameEventHandler(new_game())
+            return MainGameEventHandler(new_game())
 
         return None
