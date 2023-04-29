@@ -47,7 +47,7 @@ class Engine:
         self.game_map.render(console)
 
         self.message_log.render(console=console, x=21,
-                                y=45, width=40, height=5)
+                                y=70, width=40, height=5)
 
         render_functions.render_bar(
             console=console,
@@ -59,11 +59,11 @@ class Engine:
         render_functions.render_dungeon_level(
             console=console,
             dungeon_level=self.game_world.current_floor,
-            location=(0, 47),
+            location=(0, 72),
         )
 
         render_functions.render_names_at_mouse_location(
-            console=console, x=21, y=44, engine=self)
+            console=console, x=21, y=69, engine=self)
 
     def save_as(self, filename: str) -> None:
         """Save this Engine instance as a compressed file."""

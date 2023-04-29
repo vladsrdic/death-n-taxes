@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 
 
 max_items_by_floor = [
-    (1, 1),
-    (4, 2),
+    (1, 2),
+    (4, 3),
 ]
 
 max_monsters_by_floor = [
@@ -159,8 +159,10 @@ def tunnel_between(start: Tuple[int, int], end: Tuple[int, int]) -> Iterator[Tup
 
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
         yield x, y
+        yield x + 1, y + 1
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
         yield x, y
+        yield x + 1, y + 1
 
 
 def generate_dungeon(
