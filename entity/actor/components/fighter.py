@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 import assets.color as color
 from entity.base_component import BaseComponent
 from entity.render_order import RenderOrder
+from entity.actor.components.ai import PlayerMinion
 
 if TYPE_CHECKING:
     from entity import Actor
@@ -69,6 +70,16 @@ class Fighter(BaseComponent):
         self.engine.message_log.add_message(death_message, death_message_color)
 
         self.engine.player.level.add_xp(self.parent.level.xp_given)
+
+    def turn_to_minion(self) -> None:
+        self.parent.char = "S"
+        self.parent.color = (255, 102, 255)
+        self.parent.blocks_movement = True
+        self.parent.ai = PlayerMinion(self.parent)
+        self.parent.name = f"{self.parent.original_name}, minion of Player"
+        self.parent.render_order = RenderOrder.ACTOR
+
+        self.engine.message_log.add_message(f"You raise the dead {self.parent.original_name} as a skeletal minion", color.player_atk)
 
     def heal(self, amount: int) -> int:
         if self.hp == self.max_hp:

@@ -4,6 +4,7 @@ from typing import Optional, Tuple, Type, TYPE_CHECKING
 
 from entity import Entity
 from entity.render_order import RenderOrder
+from entity.actor.components.ai import HostileEnemy
 
 if TYPE_CHECKING:
     from entity.actor.components.ai import BaseAI
@@ -22,6 +23,7 @@ class Actor(Entity):
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
+        original_name: str = "<Unnamed>",
         ai_cls: Type[BaseAI],
         equipment: Equipment,
         fighter: Fighter,
@@ -34,6 +36,7 @@ class Actor(Entity):
             char=char,
             color=color,
             name=name,
+            original_name=original_name,
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
         )
@@ -56,3 +59,8 @@ class Actor(Entity):
     def is_alive(self) -> bool:
         """Returns True as long as this actor can perform actions."""
         return bool(self.ai)
+    
+    @property
+    def is_hostile(self) -> bool:
+        """Returns true as long as this actor has a hostile AI"""
+        return isinstance(self.ai, HostileEnemy)

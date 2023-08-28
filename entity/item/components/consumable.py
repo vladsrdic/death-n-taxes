@@ -64,7 +64,7 @@ class LightningDamageConsumable(Consumable):
         target = None
         closest_distance = self.maximum_range + 1.0
 
-        for actor in self.engine.game_map.actors:
+        for actor in self.engine.game_map.live_actors:
             if actor is not consumer and self.parent.gamemap.visible[actor.x, actor.y]:
                 distance = consumer.distance(actor.x, actor.y)
 
@@ -138,7 +138,7 @@ class FireballDamageConsumable(Consumable):
             raise Impossible("You cannot target an area that you cannot see.")
 
         targets_hit = False
-        for actor in self.engine.game_map.actors:
+        for actor in self.engine.game_map.live_actors:
             if actor.distance(*target_xy) <= self.radius:
                 self.engine.message_log.add_message(
                     f"The {actor.name} is engulfed in a fiery explosion, taking {self.damage} damage!"

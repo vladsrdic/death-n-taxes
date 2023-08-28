@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from _collections_abc import Callable
 from typing import Iterable, Iterator, Optional, TYPE_CHECKING
+
+from math import sqrt
 
 import numpy as np  # type: ignore
 from tcod.console import Console
@@ -31,14 +34,23 @@ class GameMap:
     @property
     def gamemap(self) -> GameMap:
         return self
-
+    
     @property
     def actors(self) -> Iterator[Actor]:
-        """Iterate over this maps living actors."""
+        """Iterate over this maps actors."""
         yield from (
             entity
             for entity in self.entities
-            if isinstance(entity, Actor) and entity.is_alive
+            if isinstance(entity, Actor)
+        )
+
+    @property
+    def live_actors(self) -> Iterator[Actor]:
+        """Iterate over this maps living actors."""
+        yield from (
+            actor
+            for actor in self.actors
+            if actor.is_alive
         )
 
     @property
@@ -57,11 +69,42 @@ class GameMap:
         return None
 
     def get_actor_at_location(self, x: int, y: int) -> Optional[Actor]:
-        for actor in self.actors:
+        for actor in self.live_actors:
             if actor.x == x and actor.y == y:
                 return actor
 
         return None
+    
+    def get_nearest_hostile_actor(self, x: int, y: int) -> Optional[Actor]:
+        """
+        Returns the closest hostile actor to the given coordinates.
+        """
+        hostile_filter = lambda actor_list : (actor for actor in actor_list if actor.is_hostile)
+        return self.get_nearest_actor(x, y, hostile_filter)
+
+    def get_nearest_corpse(self, x: int, y: int) -> Optional[Actor]:
+        """
+        Returns the closest in-sight corpse to the given coordinates.
+        Will only return Actors that have a Fighter component
+        """
+        corpse_filter = lambda actor_list : (actor for actor in actor_list if not actor.is_alive and actor.fighter)
+        return self.get_nearest_actor(x, y, corpse_filter)
+    
+    def get_nearest_actor(self, x: int, y: int, filter: Callable[[list], list]) -> Optional[Actor]:
+        actors = filter(self.actors)
+        closest_actor = None
+        closest_distance = -1
+
+        for actor in actors:
+            print(actor.name)
+            dx = abs(x - actor.x)
+            dy = abs(y - actor.y)
+            distance = sqrt((dx * dx) + (dy * dy))
+            if distance > closest_distance:
+                closest_actor = actor
+                closest_distance = distance
+        
+        return closest_actor
 
     def in_bounds(self, x: int, y: int) -> bool:
         """Return true if x and y are inside of the bounds of this map."""

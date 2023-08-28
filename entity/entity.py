@@ -28,6 +28,7 @@ class Entity:
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
+        original_name: str = "<Unnamed>",
         blocks_movement: bool = False,
         render_order: RenderOrder = RenderOrder.CORPSE,
     ):
@@ -36,6 +37,7 @@ class Entity:
         self.char = char
         self.color = color
         self.name = name
+        self.original_name = original_name
         self.blocks_movement = blocks_movement
         self.render_order = render_order
         if parent:

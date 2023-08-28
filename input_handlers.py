@@ -9,6 +9,7 @@ import tcod.event
 from actions import Action, WaitAction
 from actions.movement_actions import BumpAction, TakeStairsAction
 from actions.item_actions import DropItem, EquipAction, PickupAction
+from actions.magic_actions import RaiseDeadAction
 from assets import color
 import exceptions
 
@@ -544,6 +545,8 @@ class MainGameEventHandler(EventHandler):
             return InventoryDropHandler(self.engine)
         elif key == tcod.event.K_c:
             return CharacterScreenEventHandler(self.engine)
+        elif key == tcod.event.K_r:
+            return RaiseDeadAction(player)
         elif key == tcod.event.K_SLASH:
             return LookHandler(self.engine)
 

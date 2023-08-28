@@ -113,3 +113,44 @@ class ConfusedEnemy(BaseAI):
             self.turns_remaining -= 1
 
             return BumpAction(self.entity, direction_x, direction_y,).perform()
+        
+
+class PlayerMinion(BaseAI):
+    """
+    A player minion will follow the player and stay within vision range
+    if an enemy is within sight, the minion will move towards and attack
+    the minion.
+    """
+    def __init__(self, entity: Actor):
+        super().__init__(entity)
+        self.path: List[Tuple[int, int]] = []
+
+    def perform(self) -> None:
+        # If enemy is in sight, target enemy
+        # If enemy is not in sight, and player is not, target player
+        # If enemy is not in sight and player is, don't move
+        nearest_hostile = self.engine.game_map.get_nearest_hostile_actor(self.entity.x, self.entity.y)
+        if nearest_hostile and self.engine.game_map.visible[nearest_hostile.x, nearest_hostile.y]:
+            target = nearest_hostile
+        elif self.engine.game_map.visible[self.entity.x, self.entity.y]:
+            target = self.engine.player
+        else:
+            return WaitAction(self.entity).perform()
+
+        dx = target.x - self.entity.x
+        dy = target.y - self.entity.y
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+
+        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+            if distance <= 1 and target.is_hostile:
+                return MeleeAction(self.entity, dx, dy).perform()
+
+            self.path = self.get_path_to(target.x, target.y)
+
+        if self.path:
+            dest_x, dest_y = self.path.pop(0)
+            return MovementAction(
+                self.entity, dest_x - self.entity.x, dest_y - self.entity.y,
+            ).perform()
+
+        return WaitAction(self.entity).perform()
