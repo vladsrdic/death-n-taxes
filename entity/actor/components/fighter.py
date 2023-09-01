@@ -78,6 +78,8 @@ class Fighter(BaseComponent):
         self.parent.ai = PlayerMinion(self.parent)
         self.parent.name = f"{self.parent.original_name}, minion of Player"
         self.parent.render_order = RenderOrder.ACTOR
+        self.max_hp = 10
+        self.hp = 10
 
         self.engine.message_log.add_message(f"You raise the dead {self.parent.original_name} as a skeletal minion", color.player_atk)
 

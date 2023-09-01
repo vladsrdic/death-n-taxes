@@ -132,7 +132,7 @@ class PlayerMinion(BaseAI):
         nearest_hostile = self.engine.game_map.get_nearest_hostile_actor(self.entity.x, self.entity.y)
         if nearest_hostile and self.engine.game_map.visible[nearest_hostile.x, nearest_hostile.y]:
             target = nearest_hostile
-        elif self.engine.game_map.visible[self.entity.x, self.entity.y]:
+        elif not self.engine.game_map.visible[self.entity.x, self.entity.y]:
             target = self.engine.player
         else:
             return WaitAction(self.entity).perform()

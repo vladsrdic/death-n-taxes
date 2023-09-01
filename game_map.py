@@ -80,7 +80,7 @@ class GameMap:
         Returns the closest hostile actor to the given coordinates.
         """
         hostile_filter = lambda actor_list : (actor for actor in actor_list if actor.is_hostile)
-        return self.get_nearest_actor(x, y, hostile_filter)
+        return self.get_nearest_non_player_actor(x, y, hostile_filter)
 
     def get_nearest_corpse(self, x: int, y: int) -> Optional[Actor]:
         """
@@ -88,15 +88,16 @@ class GameMap:
         Will only return Actors that have a Fighter component
         """
         corpse_filter = lambda actor_list : (actor for actor in actor_list if not actor.is_alive and actor.fighter)
-        return self.get_nearest_actor(x, y, corpse_filter)
+        return self.get_nearest_non_player_actor(x, y, corpse_filter)
     
-    def get_nearest_actor(self, x: int, y: int, filter: Callable[[list], list]) -> Optional[Actor]:
-        actors = filter(self.actors)
+    def get_nearest_non_player_actor(self, x: int, y: int, filter: Callable[[list], list]) -> Optional[Actor]:
+        actors = set(filter(self.actors)) - {self.engine.player}
+        for actor in actors:
+            print(actor.name)
         closest_actor = None
         closest_distance = -1
 
         for actor in actors:
-            print(actor.name)
             dx = abs(x - actor.x)
             dy = abs(y - actor.y)
             distance = sqrt((dx * dx) + (dy * dy))
