@@ -12,4 +12,4 @@ Controls:
 * C for character stats
 * I for inventory
 * V for action history
-* R to raise a nearby corpse as a minion
+* R to raise a nearby corpse as a minion (AI currently bugged)
