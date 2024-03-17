@@ -117,7 +117,7 @@ class GameMap:
         If it isn't, but it's in the "explored" array, then draw it with the "dark" colors.
         Otherwise, the default is "SHROUD".
         """
-        console.tiles_rgb[0: self.width, 0: self.height] = np.select(
+        console.rgb[0: self.width, 0: self.height] = np.select(
             condlist=[self.visible, self.explored],
             choicelist=[self.tiles["light"], self.tiles["dark"]],
             default=tile_types.SHROUD,
@@ -128,7 +128,6 @@ class GameMap:
         )
 
         for entity in entities_sorted_for_rendering:
-            console.print(entity.x, entity.y, entity.char, fg=entity.color)
             # Only print entities that are in the FOV
             if self.visible[entity.x, entity.y]:
                 console.print(x=entity.x, y=entity.y,

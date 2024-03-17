@@ -23,7 +23,7 @@ class Actor(Entity):
         char: str = "?",
         color: Tuple[int, int, int] = (255, 255, 255),
         name: str = "<Unnamed>",
-        original_name: str = "<Unnamed>",
+        original_name: str = None,
         ai_cls: Type[BaseAI],
         equipment: Equipment,
         fighter: Fighter,
@@ -36,7 +36,7 @@ class Actor(Entity):
             char=char,
             color=color,
             name=name,
-            original_name=original_name,
+            original_name=original_name or name,
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
         )
