@@ -92,16 +92,14 @@ class GameMap:
     
     def get_nearest_non_player_actor(self, x: int, y: int, filter: Callable[[list], list]) -> Optional[Actor]:
         actors = set(filter(self.actors)) - {self.engine.player}
-        for actor in actors:
-            print(actor.name)
         closest_actor = None
-        closest_distance = -1
+        closest_distance = float('inf')
 
         for actor in actors:
             dx = abs(x - actor.x)
             dy = abs(y - actor.y)
             distance = sqrt((dx * dx) + (dy * dy))
-            if distance > closest_distance:
+            if distance < closest_distance:
                 closest_actor = actor
                 closest_distance = distance
         

@@ -13,7 +13,6 @@ def save_game(handler: BaseEventHandler, filename: str) -> None:
     """If the current event handler was an active Engine then save it."""
     if isinstance(handler, EventHandler):
         handler.engine.save_as(filename)
-        print("Game saved.")
 
 
 def main() -> None:
