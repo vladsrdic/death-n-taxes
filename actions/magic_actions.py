@@ -22,7 +22,7 @@ class RaiseDeadAction(Action):
         """Finds the nearest corpse to the player (within sight) and raises it as a minion"""
         corpse = self.target_corpse
 
-        if corpse:
+        if corpse and self.engine.game_map.visible[corpse.x, corpse.y]:
             corpse.fighter.turn_to_minion()
         else:
             self.entity.gamemap.engine.message_log.add_message("There are no corpses nearby to raise", color.impossible)
