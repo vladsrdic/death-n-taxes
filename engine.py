@@ -34,12 +34,18 @@ class Engine:
                     pass  # Ignore impossible action exceptions from AI.
 
     def update_fov(self) -> None:
-        """Recompute the visible area based on the players point of view."""
+        """Recompute the visible area based on the player's and minions' points of view."""
         self.game_map.visible[:] = compute_fov(
             self.game_map.tiles["transparent"],
             (self.player.x, self.player.y),
             radius=8
         )
+        for actor in self.game_map.minion_actors:
+            self.game_map.visible |= compute_fov(
+                self.game_map.tiles["transparent"],
+                (actor.x, actor.y),
+                radius=4
+            )
         # If a title is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
 

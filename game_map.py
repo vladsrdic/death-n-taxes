@@ -54,6 +54,15 @@ class GameMap:
         )
 
     @property
+    def minion_actors(self) -> Iterator[Actor]:
+        """Iterate over this maps player minions."""
+        yield from (
+            actor
+            for actor in self.actors
+            if actor.is_minion
+        )
+
+    @property
     def items(self) -> Iterator[Item]:
         yield from (entity for entity in self.entities if isinstance(entity, Item))
 

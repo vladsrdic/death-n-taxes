@@ -4,7 +4,7 @@ from typing import Optional, Tuple, Type, TYPE_CHECKING
 
 from entity import Entity
 from entity.render_order import RenderOrder
-from entity.actor.components.ai import HostileEnemy
+from entity.actor.components.ai import HostileEnemy, PlayerMinion
 
 if TYPE_CHECKING:
     from entity.actor.components.ai import BaseAI
@@ -64,3 +64,8 @@ class Actor(Entity):
     def is_hostile(self) -> bool:
         """Returns true as long as this actor has a hostile AI"""
         return isinstance(self.ai, HostileEnemy)
+
+    @property
+    def is_minion(self) -> bool:
+        """Returns true as long as this actor has a player minion AI"""
+        return isinstance(self.ai, PlayerMinion)

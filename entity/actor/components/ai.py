@@ -130,10 +130,8 @@ class PlayerMinion(BaseAI):
         # If enemy is not in sight, and player is not, target player
         # If enemy is not in sight and player is, don't move
         nearest_hostile = self.engine.game_map.get_nearest_hostile_actor(self.entity.x, self.entity.y)
-        if nearest_hostile and self.engine.game_map.visible[nearest_hostile.x, nearest_hostile.y]:
+        if nearest_hostile:
             target = nearest_hostile
-        elif not self.engine.game_map.visible[self.entity.x, self.entity.y]:
-            target = self.engine.player
         else:
             return WaitAction(self.entity).perform()
 
@@ -141,11 +139,10 @@ class PlayerMinion(BaseAI):
         dy = target.y - self.entity.y
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
 
-        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
-            if distance <= 1 and target.is_hostile:
-                return MeleeAction(self.entity, dx, dy).perform()
+        if distance <= 1 and target.is_hostile:
+            return MeleeAction(self.entity, dx, dy).perform()
 
-            self.path = self.get_path_to(target.x, target.y)
+        self.path = self.get_path_to(target.x, target.y)
 
         if self.path:
             dest_x, dest_y = self.path.pop(0)
